@@ -12,14 +12,12 @@ public class UserService {
     // VULNERABILITY: SQL Injection
     public void findUser(String username) throws Exception {
 
-        Connection conn =
-            DriverManager.getConnection("jdbc:mysql://localhost/db",
-                    "root", password);
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/db",
+                "root", password);
 
         Statement st = conn.createStatement();
 
-        String query =
-            "SELECT * FROM users WHERE name = '" + username + "'";
+        String query = "SELECT * FROM users WHERE name = '" + username + "'";
 
         st.executeQuery(query);
     }
@@ -28,4 +26,14 @@ public class UserService {
     public void notUsed() {
         System.out.println("I am never called");
     }
+
+    // EVEN WORSE: another SQL injection
+    public void deleteUser(String username) throws Exception {
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/db",
+                "root", password);
+        Statement st = conn.createStatement();
+        String query = "DELETE FROM users WHERE name = '" + username + "'";
+        st.execute(query);
+    }
+
 }
