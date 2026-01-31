@@ -1,15 +1,21 @@
 package main.java.com.example;
 
+import java.util.logging.Logger;
+
 public class App {
 
-    public static void main(String[] args) throws Exception {
+    private static final Logger LOGGER = Logger.getLogger(App.class.getName());
 
+    public static void main(String[] args) {
         Calculator calc = new Calculator();
-
-        System.out.println(calc.calculate(10, 5, "add"));
+        LOGGER.info(() -> String.valueOf(calc.calculate(10, 5, "add-again")));
 
         UserService service = new UserService();
-        service.findUser("admin");
+        try {
+            service.findUser("admin");
+            service.deleteUser("admin");
+        } catch (Exception e) {
+            LOGGER.severe("UserService failed: " + e.getMessage());
+        }
     }
 }
-
